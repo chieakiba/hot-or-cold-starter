@@ -1,9 +1,14 @@
-
-var randomNumber;
 //generate random number
+var randomNumber;
 var generateRandomNumber = function() {
 	randomNumber = Math.floor(Math.random() *100) +1;
 };
+//show the number(s) that the user guessed so far in #guessList
+var counter = function () {
+        var guessCount = $('#count').text();
+        var newValue = +guessCount+1;
+        return $('#count').text(newValue);
+      };
 
 $(document).ready(function(){
 	
@@ -46,10 +51,5 @@ $(document).ready(function(){
   	})
 });
 
-//show the number(s) that the user guessed so far in #guessList
-var counter = function () {
-        var guessCount = $('#count').text();
-        var newValue = +guessCount+1;
-        return $('#count').text(newValue);
-      }
+
 //enable new game to start when the user clicks on .new for New Game
