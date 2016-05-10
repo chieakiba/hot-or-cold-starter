@@ -1,13 +1,8 @@
 
+var randomNumber;
 //generate random number
 var generateRandomNumber = function() {
-	Math.floor(Math.random() *100) +1;
-};
-//show the number(s) that the user guessed so far in #guessList
-
-//get user guess
-var getUserGuess = function() {
-	'#userGuess'.val();
+	randomNumber = Math.floor(Math.random() *100) +1;
 };
 
 $(document).ready(function(){
@@ -15,7 +10,6 @@ $(document).ready(function(){
 	/*--- Display information modal box ---*/
   	$(".what").click(function(){
     	$(".overlay").fadeIn(1000);
-
   	});
 
   	/*--- Hide information modal box ---*/
@@ -23,22 +17,24 @@ $(document).ready(function(){
   		$(".overlay").fadeOut(1000);
   	});
   	//generate a secret number between 1 and 100 that the user will have to guess after clicking on the submit button
-  	$(".button").click(function() {
-  		generateRandomNumber();
-  		//give feedback for guess in #feedback
-  			//too low/high (colder/cold), getting closer (warmer/hot), or just right
-  		if (getUserGuess >= (generateRandomNumber + 5) || (generateRandomNumber - 5)) {
-  			console.log("Hot");
+  	generateRandomNumber();
+  	$(".button").click(function(event) {
+  		event.preventDefault();
+		  var getUserGuess = $('#userGuess').val();
+  		//give feedback for guess in #feedback if the userGuess is larger than the correct number
+  		if (getUserGuess > randomNumber) {
+  			$('#feedback').text('Hot');
   		}
-  		else if (getUserGuess > generateRandomNumber) {
-  			console.log("Colder");
-  		}
-  		else if (getUserGuess <= generateRandomNumber) {
-  			console.log("Hot");
-  		}
-  		else if (getUserGuess < (generateRandomNumber + 5) || (generateRandomNumber - 5)) {
-  			console.log("Colder");
-  		}
+      //give feedback if userGuess is closer to the correct number
+      //give feedback for guess in #feedback if the userGuess is smaller than the correct number
+      else if (getUserGuess < randomNumber) {
+        $('#feedback').text('Cold');
+      }
+      //give feedback if userGuess is farther from the correct number
+  		//when user guesses the correct answer
+  		else if (getUserGuess == randomNumber) {
+  			$('#feedback').text("Correct!");
+      }
   	})
 });
 
