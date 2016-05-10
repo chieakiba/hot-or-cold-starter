@@ -22,6 +22,7 @@ $(document).ready(function(){
   		event.preventDefault();
 		  var getUserGuess = $('#userGuess').val();
       var distancefromCorrectAnswer = Math.abs(randomNumber - getUserGuess);
+      counter();
       //give feedback if userGuess is correct
   		if (getUserGuess == randomNumber) {
         $('#feedback').text("Correct!");
@@ -46,5 +47,9 @@ $(document).ready(function(){
 });
 
 //show the number(s) that the user guessed so far in #guessList
-
+var counter = function () {
+        var guessCount = $('#count').text();
+        var newValue = +guessCount+1;
+        return $('#count').text(newValue);
+      }
 //enable new game to start when the user clicks on .new for New Game
