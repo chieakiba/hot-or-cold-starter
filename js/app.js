@@ -21,19 +21,26 @@ $(document).ready(function(){
   	$(".button").click(function(event) {
   		event.preventDefault();
 		  var getUserGuess = $('#userGuess').val();
-  		//give feedback for guess in #feedback if the userGuess is larger than the correct number
-  		if (getUserGuess > randomNumber) {
-  			$('#feedback').text('Hot');
-  		}
-      //give feedback if userGuess is closer to the correct number
-      //give feedback for guess in #feedback if the userGuess is smaller than the correct number
-      else if (getUserGuess < randomNumber) {
-        $('#feedback').text('Cold');
+      var distancefromCorrectAnswer = Math.abs(randomNumber - getUserGuess);
+      //give feedback if userGuess is correct
+  		if (getUserGuess == randomNumber) {
+        $('#feedback').text("Correct!");
+      }
+      //give feedback if userGuess is close to the correct number
+      else if (distancefromCorrectAnswer <= 10 && distancefromCorrectAnswer >= 1) {
+        $('#feedback').text("Hot!");
+      }
+      //give feedback if userGuess is getting closer to the correct number
+      else if (distancefromCorrectAnswer <= 20 && distancefromCorrectAnswer >= 11) {
+        $('#feedback').text("Warmer");
       }
       //give feedback if userGuess is farther from the correct number
-  		//when user guesses the correct answer
-  		else if (getUserGuess == randomNumber) {
-  			$('#feedback').text("Correct!");
+      else if (distancefromCorrectAnswer <= 30 && distancefromCorrectAnswer >= 21) {
+        $('#feedback').text("Cold");
+      }
+      //give feedback if userGuess is far from the correct number
+      else {
+        $('#feedback').text("Very Cold");
       }
   	})
 });
