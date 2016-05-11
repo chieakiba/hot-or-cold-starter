@@ -9,6 +9,14 @@ var counter = function() {
     var newValue = +guessCount + 1;
     return $('#count').text(newValue);
 };
+//store user's guess so the user can see what they guesses previously
+var newGuess;
+var newList;
+var listOfGuess = function() {
+    newGuess = $('#userGuess').val();
+    newList = $('#guessList').html("<ul id='guessList' class='guessBox clearfix'><li>" + newGuess + "</li></ul>");
+    return $('#guessList').add(newList);
+};
 
 $(document).ready(function() {
 
@@ -28,6 +36,7 @@ $(document).ready(function() {
         var getUserGuess = $('#userGuess').val();
         var distancefromCorrectAnswer = Math.abs(randomNumber - getUserGuess);
         counter();
+        listOfGuess();
         //give feedback if userGuess is correct
         if (getUserGuess == randomNumber) {
             $('#feedback').text('Correct! Click "New Game" to play again.');
@@ -44,14 +53,22 @@ $(document).ready(function() {
         else if (distancefromCorrectAnswer <= 30 && distancefromCorrectAnswer >= 21) {
             $('#feedback').text("Cold");
         }
+        //check for NaN input
+        else if (!parseInt(newGuess)) {
+            $('#feedback').text("Please enter a number.");
+        }
+        //check that the number is a whole number
+        else if (Math.round(newGuess) != newGuess) {
+            $('#feedback').text("Please enter a whole number.");
+        }
         //give feedback if userGuess is far from the correct number
         else {
             $('#feedback').text("Very Cold");
         }
     })
+
     //enable new game to start when the user clicks on .new for New Game
     $('.new').click(function() {
-      window.location.reload();
+        window.location.reload();
     })
 });
-
