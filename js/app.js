@@ -1,3 +1,4 @@
+var loadNewGame;
 //generate random number
 var randomNumber;
 var generateRandomNumber = function() {
@@ -7,15 +8,15 @@ var generateRandomNumber = function() {
 var counter = function() {
     var guessCount = $('#count').text();
     var newValue = +guessCount + 1;
-    return $('#count').text(newValue);
+    $('#count').text(newValue);
 };
 //store user's guess so the user can see what they guesses previously
 var newGuess;
 var newList;
 var listOfGuess = function() {
     newGuess = $('#userGuess').val();
-    newList = $('#guessList').html("<ul id='guessList' class='guessBox clearfix'><li>" + newGuess + "</li></ul>");
-    return $('#guessList').add(newList);
+    newList = $('#guessList').append("<li>" + newGuess + "</li>");
+    $('#userGuess').val("");
 };
 
 $(document).ready(function() {
@@ -66,9 +67,14 @@ $(document).ready(function() {
             $('#feedback').text("Very Cold");
         }
     })
+});
 
-    //enable new game to start when the user clicks on .new for New Game
+//enable new game to start when the user clicks on .new for New Game
+$(document).ready(function() {    
     $('.new').click(function() {
-        window.location.reload();
+        listOfGuess();
+        counter();
+        generateRandomNumber();
+        $('#feedback').text("Make your Guess!");
     })
 });
