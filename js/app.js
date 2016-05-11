@@ -1,4 +1,3 @@
-var loadNewGame;
 //generate random number
 var randomNumber;
 var generateRandomNumber = function() {
@@ -54,27 +53,29 @@ $(document).ready(function() {
         else if (distancefromCorrectAnswer <= 30 && distancefromCorrectAnswer >= 21) {
             $('#feedback').text("Cold");
         }
+        //check for empty entry
+        else if (isNan(newGuess)) {
+            alert("Please enter a number in this field.");
+        }
         //check for NaN input
         else if (!parseInt(newGuess)) {
-            $('#feedback').text("Please enter a number.");
+            alert("Please enter a number.");
         }
         //check that the number is a whole number
         else if (Math.round(newGuess) != newGuess) {
-            $('#feedback').text("Please enter a whole number.");
+            alert("Please enter a whole number.");
         }
         //give feedback if userGuess is far from the correct number
         else {
             $('#feedback').text("Very Cold");
         }
     })
-});
-
-//enable new game to start when the user clicks on .new for New Game
-$(document).ready(function() {    
+    //enable new game to start when the user clicks on .new for New Game
     $('.new').click(function() {
-        listOfGuess();
-        counter();
-        generateRandomNumber();
-        $('#feedback').text("Make your Guess!");
+        $('#count').text(0);
+        $('#guessList').empty();
+        $('#feedback').text('Make your Guess!');
     })
 });
+
+
