@@ -17,6 +17,18 @@ var listOfGuess = function() {
     newList = $('#guessList').append("<li>" + newGuess + "</li>");
     $('#userGuess').val("");
 };
+//prevent counter from running and adding user input into the newList when user enters invalid entry
+var invalidEntry = function() {
+    var guessCount = $('#count').text();
+    var newValue = +guessCount - 1;
+    $('#count').text(newValue);
+    $('#guessList').children().last().detach();
+};
+
+// var alreadyInList = function() {
+//     $('this').parent().next().next().children().is();
+//     if 
+// }
 
 $(document).ready(function() {
 
@@ -35,6 +47,7 @@ $(document).ready(function() {
         event.preventDefault();
         var getUserGuess = $('#userGuess').val();
         var distancefromCorrectAnswer = Math.abs(randomNumber - getUserGuess);
+        var alreadyInList = $('#guessList').children().get();
         counter();
         listOfGuess();
         //give feedback if userGuess is correct
@@ -53,17 +66,25 @@ $(document).ready(function() {
         else if (distancefromCorrectAnswer <= 30 && distancefromCorrectAnswer >= 21) {
             $('#feedback').text("Cold");
         }
-        //check for empty entry
-        else if (isNan(newGuess)) {
-            alert("Please enter a number in this field.");
+        //check if the user entered a number between 1 and 100
+        else if (getUserGuess < 1 || getUserGuess > 100) {
+            alert("Please enter a number between 1 and 100.");
+            invalidEntry();
         }
-        //check for NaN input
+        //check if the user already guessed that number
+        else if (getUserGuess == alreadyInList) {
+            alert("You already guessed that number! Try a different one.");
+            invalidEntry();
+        }
+        //check for an invalid input
         else if (!parseInt(newGuess)) {
             alert("Please enter a number.");
+            invalidEntry();
         }
         //check that the number is a whole number
         else if (Math.round(newGuess) != newGuess) {
             alert("Please enter a whole number.");
+            invalidEntry();
         }
         //give feedback if userGuess is far from the correct number
         else {
@@ -77,5 +98,3 @@ $(document).ready(function() {
         $('#feedback').text('Make your Guess!');
     })
 });
-
-
