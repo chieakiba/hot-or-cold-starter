@@ -25,10 +25,17 @@ var invalidEntry = function() {
     $('#guessList').children().last().detach();
 };
 
-// var alreadyInList = function() {
-//     $('this').parent().next().next().children().is();
-//     if 
-// }
+//give feedback to user if the user enters the guess as before
+var inList = [];
+var alreadyInList = function() {
+    if (inList.indexOf(newGuess) === -1) {
+        inList.push(newGuess);
+    }
+    else if (inList.indexOf(newGuess) > -1) {
+        alert(newGuess + " already guessed that number! Try a different one!");
+        invalidEntry();
+    }
+};
 
 $(document).ready(function() {
 
@@ -45,13 +52,12 @@ $(document).ready(function() {
     generateRandomNumber();
     $(".button").click(function(event) {
         event.preventDefault();
-        var getUserGuess = $('#userGuess').val();
-        var distancefromCorrectAnswer = Math.abs(randomNumber - getUserGuess);
-        var alreadyInList = $('#guessList').children().get();
+        var distancefromCorrectAnswer = Math.abs(randomNumber - newGuess);
         counter();
         listOfGuess();
+        alreadyInList();
         //give feedback if userGuess is correct
-        if (getUserGuess == randomNumber) {
+        if (newGuess == randomNumber) {
             $('#feedback').text('Correct! Click "New Game" to play again.');
         }
         //give feedback if userGuess is close to the correct number
@@ -67,13 +73,8 @@ $(document).ready(function() {
             $('#feedback').text("Cold");
         }
         //check if the user entered a number between 1 and 100
-        else if (getUserGuess < 1 || getUserGuess > 100) {
+        else if (newGuess < 1 || newGuess > 100) {
             alert("Please enter a number between 1 and 100.");
-            invalidEntry();
-        }
-        //check if the user already guessed that number
-        else if (getUserGuess == alreadyInList) {
-            alert("You already guessed that number! Try a different one.");
             invalidEntry();
         }
         //check for an invalid input
